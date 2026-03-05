@@ -25,6 +25,17 @@ const createTables = async () => {
             );
     `   );
 
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS comments (
+            id SERIAL PRIMARY KEY,
+            ticket_id INTEGER REFERENCES tickets(id) ON DELETE CASCADE,
+            user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+            message TEXT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+`       );
+
+
     console.log("Tables created successfully");
     process.exit();
 

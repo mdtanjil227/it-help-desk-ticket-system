@@ -1,5 +1,7 @@
 const express = require("express");
 const cors = require("cors");
+const swaggerUi = require("swagger-ui-express");
+const swaggerJsdoc = require("swagger-jsdoc");
 require("dotenv").config();
 const pool = require("./db");
 
@@ -8,6 +10,26 @@ const app = express();
 /* MIDDLEWARE */
 app.use(cors());
 app.use(express.json());
+/* API Documentation */
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "IT Help Desk API",
+      version: "1.0.0",
+      description: "API documentation for the IT Help Desk Ticket System"
+    },
+    servers: [
+      {
+        url: "http://localhost:5000"
+      }
+    ]
+  },
+  apis: ["./routes/*.js"]
+};
+
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 /* ROUTES */
 const authRoutes = require("./routes/auth");
