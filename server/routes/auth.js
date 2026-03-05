@@ -63,7 +63,7 @@ router.post("/login", async (req, res) => {
         userId: user.rows[0].id,
         role: user.rows[0].role,
       },
-      "supersecretkey", // we will move to .env later
+      process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
 
